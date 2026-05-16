@@ -1,3 +1,36 @@
+<script>
+  let name = $state("");
+  let email = $state("");
+  let message = $state("");
+  let loading = $state(false);
+  let submitted = $state(false);
+  let error = $state("");
+
+  async function submit() {
+    if (!name || !email || !message) {
+      error = "please fill out all fields.";
+      return;
+    }
+    loading = true;
+    error = "";
+    try {
+      const res = await fetch("https://charmit-form.hdroberson23.workers.dev", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, message }),
+      });
+      if (res.ok) {
+        submitted = true;
+      } else {
+        error = "something went wrong. try emailing directly.";
+      }
+    } catch {
+      error = "something went wrong. try emailing directly.";
+    }
+    loading = false;
+  }
+</script>
+
 <nav>
   <div class="nav-logo">charm<span>IT</span></div>
   <ul class="nav-links">
@@ -13,9 +46,7 @@
   <p class="hero-sub">
     Here to help you navigate the world of technology - one problem at a time.
   </p>
-  <a href="https://forms.gle/xnQqd2eUVEtyBRHR9" class="hero-cta" target="_blank"
-    >GET IN TOUCH</a
-  >
+  <a href="#contact" class="hero-cta">GET IN TOUCH</a>
 </div>
 
 <div class="divider"></div>
@@ -79,17 +110,48 @@
   <div class="section-label">// contact</div>
   <div class="section-title">need help?</div>
   <div class="contact-box">
-    <p>
-      Got a tech problem that you can't quite wrap your head around? Fill out
-      the contact form or directly send me a email. Response times are usually
-      pretty quick (2-3 business days)
-    </p>
+    <div class="form-wrap">
+      {#if submitted}
+        <p class="success">✓ message sent — i'll get back to you soon.</p>
+      {:else}
+        <div class="form">
+          <div class="field">
+            <label for="name">name</label>
+            <input
+              id="name"
+              type="text"
+              bind:value={name}
+              placeholder="your name"
+            />
+          </div>
+          <div class="field">
+            <label for="email">email</label>
+            <input
+              id="email"
+              type="email"
+              bind:value={email}
+              placeholder="your@email.com"
+            />
+          </div>
+          <div class="field">
+            <label for="message">message</label>
+            <textarea
+              id="message"
+              bind:value={message}
+              rows="5"
+              placeholder="what do you need help with?"
+            ></textarea>
+          </div>
+          {#if error}
+            <p class="error">{error}</p>
+          {/if}
+          <button class="submit" onclick={submit} disabled={loading}>
+            {loading ? "sending..." : "→ send message"}
+          </button>
+        </div>
+      {/if}
+    </div>
     <div class="contact-links">
-      <a
-        href="https://forms.gle/xnQqd2eUVEtyBRHR9"
-        class="contact-link"
-        target="_blank">→ contact form</a
-      >
       <a href="mailto:charmit@charmanita.dev" class="contact-link"
         >→ charmit@charmanita.dev</a
       >
@@ -303,14 +365,78 @@
     background: var(--surface);
     padding: 2.5rem;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     gap: 2rem;
   }
-  .contact-box p {
+  .form-wrap {
+    flex: 1;
+  }
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+  }
+  input,
+  textarea {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    padding: 0.6rem 0.9rem;
+    outline: none;
+    resize: vertical;
+    transition: border-color 0.2s;
+  }
+  input:focus,
+  textarea:focus {
+    border-color: var(--accent);
+  }
+  input::placeholder,
+  textarea::placeholder {
     color: var(--muted);
-    font-size: 0.95rem;
-    max-width: 400px;
+  }
+  .submit {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--bg);
+    background: var(--accent);
+    border: none;
+    padding: 0.75rem 2rem;
+    cursor: pointer;
+    letter-spacing: 0.08em;
+    transition: opacity 0.2s;
+    align-self: flex-start;
+  }
+  .submit:hover {
+    opacity: 0.85;
+  }
+  .submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .success {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--accent);
+  }
+  .error {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: #ff4444;
   }
   .contact-links {
     display: flex;
