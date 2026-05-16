@@ -82,7 +82,7 @@
     <p>
       Got a tech problem that you can't quite wrap your head around? Fill out
       the contact form or directly send me a email. Response times are usually
-      pretty quick (1-2 hours)
+      pretty quick (2-3 business days)
     </p>
     <div class="contact-links">
       <a
