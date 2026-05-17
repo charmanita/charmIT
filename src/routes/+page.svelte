@@ -63,7 +63,7 @@
       </p>
       <p>
         I'm planning to pursue a degree in computer science with a focus on IT
-        and systems administration. I learn something new every single day.
+        and system administration. I learn something new every single day.
       </p>
       <p>
         Whether it's troubleshooting a broken install, setting up a drive, or
@@ -86,15 +86,11 @@
       </div>
       <div class="skill-item">
         <div class="skill-dot"></div>
-        ChromeOS
+        Hardware installation
       </div>
       <div class="skill-item">
         <div class="skill-dot"></div>
-        Hardware (HDD/SSD installs)
-      </div>
-      <div class="skill-item">
-        <div class="skill-dot"></div>
-        File management & recovery
+        File recovery (Windows only!)
       </div>
       <div class="skill-item">
         <div class="skill-dot"></div>
