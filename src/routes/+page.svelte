@@ -148,8 +148,9 @@
       {/if}
     </div>
     <div class="contact-links">
-      <a href="mailto:charmit@charmanita.dev" class="contact-link"
-        >→ charmit@charmanita.dev</a
+      <a
+        href="mailto:charmit@charmanita.dev?subject=%5BcharmIT%5D"
+        class="contact-link">→ charmit@charmanita.dev</a
       >
     </div>
   </div>
