@@ -1,4 +1,6 @@
-<script>
+<script lang="ts">
+  import { onMount } from "svelte";
+
   let name = $state("");
   let email = $state("");
   let message = $state("");
@@ -6,18 +8,40 @@
   let submitted = $state(false);
   let error = $state("");
 
+  onMount(() => {
+    const script = document.createElement("script");
+    script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+  });
+
+  function getTurnstileToken(): string | null {
+    const el = document.querySelector<HTMLInputElement>(
+      'input[name="cf-turnstile-response"]',
+    );
+    return el?.value || null;
+  }
+
   async function submit() {
     if (!name || !email || !message) {
       error = "please fill out all fields.";
       return;
     }
+
+    const token = getTurnstileToken();
+    if (!token) {
+      error = "verification not complete. please wait a moment and try again.";
+      return;
+    }
+
     loading = true;
     error = "";
     try {
       const res = await fetch("https://charmit-form.hdroberson23.workers.dev", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, message }),
+        body: JSON.stringify({ name, email, message, turnstileToken: token }),
       });
       if (res.ok) {
         submitted = true;
@@ -141,6 +165,12 @@
           {#if error}
             <p class="error">{error}</p>
           {/if}
+          <div
+            class="cf-turnstile"
+            data-sitekey="0x4AAAAAADSIWZmGesHPsI4B"
+            data-theme="dark"
+            data-size="compact"
+          ></div>
           <button class="submit" onclick={submit} disabled={loading}>
             {loading ? "sending..." : "→ send message"}
           </button>
