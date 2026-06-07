@@ -22,3 +22,8 @@ List of skills:
     - Recover files on Windows 10/11 systems.
 - **Skill not listed?**
     - Don't fret, you can just contact me at [charmit@charmanita.dev](mailto:charmit@charmanita.dev?subject=%5BcharmIT%5D) or submit a [form here](https://charmit.charmanita.dev/#contact)!
+---
+### Live Preview:
+---
+![Live Preview](https://api.microlink.io?url=https://charmit.charmanita.dev/&screenshot=true&meta=false&embed=screenshot.url)
+---
